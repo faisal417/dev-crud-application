@@ -1,0 +1,31 @@
+
+
+
+
+<div class="container my-5">
+    <div class="row  justify-content-center">
+        <div class="col-md-5">
+            <a class="btn btn-sm btn-primary" href="/devs">Back</a>
+            <br>
+            <br>
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h3>Developers Application</h3>
+                </div>
+                <div class="card-body text-center" id="singleStudent">
+                    <% if ( dev.photo == 'avatar.png') { %>
+                        <img src="/images/avatar.png" alt="">
+                        <% } else { %>
+                            <img src="/images/devs/<%= dev.photo %> " alt="">                    
+                    <% } %>
+                    <h4><%= dev.name %> </h4>
+                    <h4>Phone :<%= dev.phone %> </h4>
+                    <h4>Email : <%= dev.email %> </h4>
+                    <h4>Location : <%= dev.location %> </h4>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+</div>

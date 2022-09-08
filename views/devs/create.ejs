@@ -1,0 +1,66 @@
+
+
+
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <a class="btn btn-sm btn-primary" href="/devs">Back</a>
+            <br>
+            <br>
+            <div class="card shadow">
+                <div class="card-header">
+                    <h3>Add A New Developer</h3>
+                </div>
+
+                <form action="/devs/create" method="post" class="px-2" enctype="multipart/form-data">
+
+                    <div class="my-3">
+                        <label for=""><strong>Name</strong></label>
+                        <input name="name" class="form-control" type="text">
+                    </div>
+
+                    <div class="my-3">
+                        <label for=""><strong>Phone</strong></label>
+                        <input name="phone" class="form-control" type="text">
+                    </div>
+
+                    <div class="my-3">
+                        <label for=""><strong>Email</strong></label>
+                        <input name="email" class="form-control" type="text">
+                    </div>
+
+                    <div class="my-3">
+                        <label for=""><strong>Location</strong></label>
+                        <select name="location" class="form-control" id="">
+                            <option value="">--Select Your Location--</option>
+                            <option value="Dhaka">Dhaka</option>
+                            <option value="Chattagram">Chattagram</option>
+                            <option value="Khulna">Khulna</option>
+                            <option value="Rajshahi">Rajshahi</option>
+                            <option value="Syleth">Syleth</option>
+                        </select>                          
+                    </div>
+
+                    <div class="my-3">
+                        <label for=""><strong>Photo</strong></label>
+                        <label for="uploadedPhoto">
+                            <img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLIKAPCG9ZCsO9Labkpu3wPHngrKJ_w749VKobi1YDiykTocsFKHtpeu_TeAz0z7Or4HI&usqp=CAU" alt="">
+                        </label>                       
+                        <input name="devs-image" class="" id="uploadedPhoto" type="file">
+                        
+                        <br>
+                            <img class="previewImg" src="" alt="">
+                        <br>
+                    </div>
+
+                    <div class="my-3">
+                        <input value="Add Now" class="btn btn-primary w-100" type="submit">
+                    </div>
+
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
