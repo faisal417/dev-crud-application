@@ -3,7 +3,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 const colors = require('colors')
 const expressLayouts = require('express-ejs-layouts')
-const devsRouter = require('./ruotes/devs')
+const devsRouter = require('./routes/devs')
 
 
 //environment setup

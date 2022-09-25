@@ -1,6 +1,6 @@
 //require
 const express = require('express')
-const { showAllDevs, createDevs, storeNewDevs, editStudent, singleStudent, deleteStudent, updataedev} = require('../controllers/devsControllers')
+const { showAllDevs, createDevs, storeNewDevs, editStudent, singleStudent, deleteStudent, updataedev, showAllUnverifiedDevs, verifyAccount} = require('../controllers/devsControllers')
 const multer = require('multer')
 const path = require('path')
 
@@ -27,6 +27,8 @@ const devsImageMulter = multer({
 
 //roting
 router.get('/', showAllDevs)
+router.get('/unverified', showAllUnverifiedDevs)
+router.get('/verify/:token', verifyAccount)
 router.get('/create', createDevs)
 router.post('/create', devsImageMulter, storeNewDevs)
 

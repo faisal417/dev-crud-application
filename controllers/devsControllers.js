@@ -1,6 +1,9 @@
 //require
 const { readFileSync, writeFileSync } = require('fs')
 const path = require('path')
+const { send } = require('process')
+const verifyAccountMail = require('../utility/sendMail')
+
 
 
 //showAllDevs
@@ -8,8 +11,21 @@ const showAllDevs = (req, res) =>{
     //devs data
     const devs = JSON.parse(readFileSync((path.join(__dirname, '../db/devs.json'))))
 
+    const verified = devs.filter( data => data.isverified == true )
+
     res.render('devs/index',{
-        devs
+        devs : verified
+    })
+}
+
+//show All Unverified Data
+const showAllUnverifiedDevs = ( req, res ) =>{
+    const devs = JSON.parse(readFileSync((path.join(__dirname, '../db/devs.json'))))
+
+    const unverified = devs.filter( data => data.isverified == false )
+
+    res.render('devs/unverified',{
+        devs : unverified
     })
 }
 
@@ -19,7 +35,7 @@ const createDevs = (req, res) =>{
 }
 
 //storeNewDevs
-const storeNewDevs = (req, res) =>{
+const storeNewDevs = async(req, res) =>{
     //devs data
     const devs = JSON.parse(readFileSync((path.join(__dirname, '../db/devs.json'))))
     //get all data
@@ -31,6 +47,14 @@ const storeNewDevs = (req, res) =>{
         lastData = devs[devs.length -1].id +1
     }
 
+    //create a token
+    const token = Date.now() +'_'+ Math.floor(Math.random() * 100000)
+
+     //send verification mail
+    await verifyAccountMail( email, 'Verify Account', {
+        name, email, phone, token
+    } )
+
     //add a new data
     devs.push({
         id : lastData,
@@ -38,8 +62,12 @@ const storeNewDevs = (req, res) =>{
         phone : phone,
         email : email,
         location : location,
-        photo : req.file ? req.file.filename : 'avatar.png'
+        photo : req.file ? req.file.filename : 'avatar.png',
+        isverified: false,
+        token: token
     })
+
+   
 
     //now write the new data to json db
    writeFileSync(path.join(__dirname, '../db/devs.json'), JSON.stringify(devs))
@@ -49,6 +77,26 @@ const storeNewDevs = (req, res) =>{
     
 
 
+}
+
+//Verify Account
+const verifyAccount = ( req, res ) =>{
+
+    //get devs data
+    const devs = JSON.parse(readFileSync((path.join(__dirname, '../db/devs.json'))))
+    //get token
+    const token = req.params.token
+    //updata devs data
+    devs[devs.findIndex( data => data.token == token)] = {
+        ... devs[devs.findIndex( data => data.token == token)],
+        isverified: true,
+        token: ''
+    }
+
+    //now write the remaining data to json db
+   writeFileSync(path.join(__dirname, '../db/devs.json'), JSON.stringify(devs))
+
+    res.redirect('/devs/')
 }
 
 //editStudent
@@ -84,9 +132,14 @@ const deleteStudent = (req, res) =>{
 
 // update dev
 const updataedev = (req, res) =>{
+
+    //get form body data
     const {name, phone, email, location, photo } = req.body;
-    const devs = JSON.parse(readFileSync((path.join(__dirname, '../db/devs.json'))))
+    //get updated id
     const {id} = req.params;
+    //devs data
+    const devs = JSON.parse(readFileSync((path.join(__dirname, '../db/devs.json'))))
+    //updata devs data
     devs[devs.findIndex( data => data.id == id)] = {
         ... devs[devs.findIndex( data => data.id == id)],
         name,
@@ -102,6 +155,8 @@ const updataedev = (req, res) =>{
 
 }
 
+
+
 //exports
 module.exports = {
     showAllDevs,
@@ -110,5 +165,7 @@ module.exports = {
     editStudent,
     singleStudent,
     deleteStudent,
-    updataedev
+    updataedev,
+    showAllUnverifiedDevs,
+    verifyAccount
 }

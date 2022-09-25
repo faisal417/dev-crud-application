@@ -33,3 +33,13 @@ tbody tr td img{
     border-radius: 50%;
     object-fit: cover;
 }
+
+.userInfo{
+    text-align: center;
+}
+
+.userInfo img{
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+}
